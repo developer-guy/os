@@ -1,7 +1,7 @@
 package:
   name: guacamole-server
   version: 1.5.2
-  epoch: 1
+  epoch: 2
   description: clientless remote desktop gateway server
   copyright:
     - license: Apache-2.0
@@ -28,6 +28,7 @@ environment:
       - libswresample4
       - harfbuzz-dev
       - expat-dev
+      - libssh2-dev
       - libxft-dev
       - fribidi-dev
 
