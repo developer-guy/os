@@ -4,10 +4,8 @@ package:
   epoch: 0
   description: "The Open Source Publishing Platform"
   copyright:
-    - license: GPL-2.0
+    - license: GPL-2.0-only
   dependencies:
-    provides:
-      - wordpress=${{package.full-version}}
     runtime:
       - php
 
