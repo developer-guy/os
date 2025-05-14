@@ -1,7 +1,7 @@
 package:
   name: gogatekeeper
   version: "3.3.0"
-  epoch: 0
+  epoch: 1
   description: An OpenID / Proxy service
   copyright:
     - license: Apache-2.0
@@ -28,6 +28,11 @@ pipeline:
       output: gatekeeper
       packages: ./cmd/keycloak/gatekeeper-keycloak.go
 
+  - runs: |
+      # copy the templates to the /opt/gatekeeper directory
+      mkdir -p "${{targets.contextdir}}"/opt/gatekeeper/templates
+      cp -r templates/* ${{targets.contextdir}}/opt/gatekeeper/templates/
+
 subpackages:
   - name: ${{package.name}}-compat
     description: gatekeeper compat
@@ -51,6 +56,11 @@ update:
 
 test:
   pipeline:
-    - runs: |
-        gatekeeper --help
-        gatekeeper --version | grep -q "${{package.version}}"
+    - name: Verify command functionality
+      runs: gatekeeper --help
+    - name: Check version information
+      runs: gatekeeper --version | grep -q "${{package.version}}"
+    - name: Verify templates directory exists
+      runs: test -d "/opt/gatekeeper/templates"
+    - name: Verify templates directory is not empty
+      runs: test -n "$(find /opt/gatekeeper/templates -mindepth 1 -print -quit)"
